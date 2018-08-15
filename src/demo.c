@@ -130,6 +130,25 @@ void *detect_in_thread(void *ptr)
     printf("\nFPS:%.1f\n",fps);
     printf("Objects:\n\n");
     image display = buff[(buff_index+2) % 3];
+
+    // TODO: Carlos V Bortolotti
+    box boxes[2];
+    box marquesSaidaCima = {0};
+    marquesSaidaCima.x = 320;
+    marquesSaidaCima.y = 40;
+    marquesSaidaCima.w = 80;
+    marquesSaidaCima.h = 1;
+    boxes[0] = marquesSaidaCima;
+
+    box marquesEntradaCima = {0};
+    marquesEntradaCima.x = 405;
+    marquesEntradaCima.y = 40;
+    marquesEntradaCima.w = 80;
+    marquesEntradaCima.h = 1;
+    boxes[1] = marquesEntradaCima;
+
+    draw_marks(display, boxes);
+
     draw_detections(display, dets, nboxes, demo_thresh, demo_names, demo_alphabet, demo_classes);
     free_detections(dets, nboxes);
 

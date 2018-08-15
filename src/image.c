@@ -236,6 +236,40 @@ image **load_alphabet()
     return alphabets;
 }
 
+// TODO: Carlos V Bortolotti
+// Imprimir as marcacoes
+void draw_marks(image im, box *boxes) {
+    // TODO:?
+    int i;
+    int num;
+
+    num = sizeof(boxes);
+
+    for (i = 0; i < num; ++i) {
+
+        box b = boxes[i];
+
+        int offset = (i+1)*123457 % num;
+        float red = get_color(2,offset,num);
+        float green = get_color(1,offset,num);
+        float blue = get_color(0,offset,num);
+
+        int left  = (b.x-b.w/2.); //*im.w;
+        int right = (b.x+b.w/2.); //*im.w;
+        int top   = (b.y-b.h/2.); //*im.h;
+        int bot   = (b.y+b.h/2.); //*im.h;
+
+        if(left < 0) left = 0;
+        if(right > im.w-1) right = im.w-1;
+        if(top < 0) top = 0;
+        if(bot > im.h-1) bot = im.h-1;
+
+        draw_box_width(im, left, top, right, bot, 1, red, green, blue);
+
+    }
+
+}
+
 void draw_detections(image im, detection *dets, int num, float thresh, char **names, image **alphabet, int classes)
 {
     int i,j;
@@ -289,6 +323,20 @@ void draw_detections(image im, detection *dets, int num, float thresh, char **na
             if(right > im.w-1) right = im.w-1;
             if(top < 0) top = 0;
             if(bot > im.h-1) bot = im.h-1;
+
+            // TODO: Carlos V. Bortolotti
+            char vbuff[1024];
+            snprintf(vbuff, 1024, "%s/video_results.txt", "data");
+            FILE *fp = fopen(vbuff, "a");
+            fprintf(fp, "begin '%s'\n", names[class]);
+            fprintf(fp, " class: '%s'\n", names[class]);
+            fprintf(fp, " top: %i\n", top);
+            fprintf(fp, " right: %i\n", right);
+            fprintf(fp, " bottom: %i\n", bot);
+            fprintf(fp, " width: %i\n", width);
+            fprintf(fp, "end '%s'\n", names[class]);
+            fclose(fp);
+            // *************************************************
 
             draw_box_width(im, left, top, right, bot, width, red, green, blue);
             if (alphabet) {
