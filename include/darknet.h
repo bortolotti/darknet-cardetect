@@ -590,6 +590,7 @@ typedef struct{
 // TODO: Carlos V. Bortolotti
 typedef struct {
     float x, y, w, h;
+    int vertical;
     char *title;
     int *class_counter;
 } line_mark;

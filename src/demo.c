@@ -104,7 +104,6 @@ void *detect_in_thread(void *ptr)
     int nboxes = 0;
     dets = avg_predictions(net, &nboxes);
 
-
     /*
        int i,j;
        box zero = {0};
@@ -133,71 +132,6 @@ void *detect_in_thread(void *ptr)
     printf("\nFPS:%.1f\n",fps);
     printf("Objects:\n\n");
     image display = buff[(buff_index+2) % 3];
-
-    // // TODO: Carlos V Bortolotti
-    // box boxes[9];
-    // box marquesSaidaCima = {0};
-    // marquesSaidaCima.x = 320;
-    // marquesSaidaCima.y = 40;
-    // marquesSaidaCima.w = 80;
-    // marquesSaidaCima.h = 1;
-    // boxes[0] = marquesSaidaCima;
-
-    // box marquesEntradaCima = {0};
-    // marquesEntradaCima.x = 405;
-    // marquesEntradaCima.y = 40;
-    // marquesEntradaCima.w = 80;
-    // marquesEntradaCima.h = 1;
-    // boxes[1] = marquesEntradaCima;
-
-    // box marquesSaidaBaixo = {0};
-    // marquesSaidaBaixo.x = 370;
-    // marquesSaidaBaixo.y = 290;
-    // marquesSaidaBaixo.w = 110;
-    // marquesSaidaBaixo.h = 1;
-    // boxes[2] = marquesSaidaBaixo;
-
-    // box marquesEntradaBaixo = {0};
-    // marquesEntradaBaixo.x = 255;
-    // marquesEntradaBaixo.y = 290;
-    // marquesEntradaBaixo.w = 110;
-    // marquesEntradaBaixo.h = 1;
-    // boxes[3] = marquesEntradaBaixo;
-
-    // box marquesSaidaBaixoLateral = {0};
-    // marquesSaidaBaixoLateral.x = 580;
-    // marquesSaidaBaixoLateral.y = 260;
-    // marquesSaidaBaixoLateral.w = 110;
-    // marquesSaidaBaixoLateral.h = 1;
-    // boxes[4] = marquesSaidaBaixoLateral;
-
-    // box ottoSaidaEsquerda = {0};
-    // ottoSaidaEsquerda.x = 160;
-    // ottoSaidaEsquerda.y = 220;
-    // ottoSaidaEsquerda.w = 1;
-    // ottoSaidaEsquerda.h = 100;
-    // boxes[5] = ottoSaidaEsquerda;
-
-    // box ottoSaidaDireita = {0};
-    // ottoSaidaDireita.x = 480;
-    // ottoSaidaDireita.y = 150;
-    // ottoSaidaDireita.w = 1;
-    // ottoSaidaDireita.h = 110;
-    // boxes[6] = ottoSaidaDireita;
-
-    // box ottoEntradaEsquerda = {0};
-    // ottoEntradaEsquerda.x = 160;
-    // ottoEntradaEsquerda.y = 135;
-    // ottoEntradaEsquerda.w = 1;
-    // ottoEntradaEsquerda.h = 55;
-    // boxes[7] = ottoEntradaEsquerda;
-
-    // box ottoEntradaDireita = {0};
-    // ottoEntradaDireita.x = 460;
-    // ottoEntradaDireita.y = 300;
-    // ottoEntradaDireita.w = 1;
-    // ottoEntradaDireita.h = 55;
-    // boxes[8] = ottoEntradaDireita;
 
     draw_marks(display, demo_line_marks);
 
@@ -324,6 +258,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     marquesSaidaCima.y = 40;
     marquesSaidaCima.w = 80;
     marquesSaidaCima.h = 1;
+    marquesSaidaCima.vertical = 0;
     marquesSaidaCima.title = "marquesSaidaCima";
     marquesSaidaCima.class_counter = calloc(demo_classes, sizeof(int));
     boxes[0] = marquesSaidaCima;
@@ -333,6 +268,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     marquesEntradaCima.y = 40;
     marquesEntradaCima.w = 80;
     marquesEntradaCima.h = 1;
+    marquesEntradaCima.vertical = 0;
     marquesEntradaCima.title = "marquesEntradaCima";
     marquesEntradaCima.class_counter = calloc(demo_classes, sizeof(int));
     boxes[1] = marquesEntradaCima;
@@ -342,6 +278,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     marquesSaidaBaixo.y = 290;
     marquesSaidaBaixo.w = 110;
     marquesSaidaBaixo.h = 1;
+    marquesSaidaBaixo.vertical = 0;    
     marquesSaidaBaixo.title = "marquesSaidaBaixo";
     marquesSaidaBaixo.class_counter = calloc(demo_classes, sizeof(int));
     boxes[2] = marquesSaidaBaixo;
@@ -351,6 +288,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     marquesEntradaBaixo.y = 290;
     marquesEntradaBaixo.w = 110;
     marquesEntradaBaixo.h = 1;
+    marquesEntradaBaixo.vertical = 0;
     marquesEntradaBaixo.title = "marquesEntradaBaixo";
     marquesEntradaBaixo.class_counter = calloc(demo_classes, sizeof(int));
     boxes[3] = marquesEntradaBaixo;
@@ -360,6 +298,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     marquesSaidaBaixoLateral.y = 260;
     marquesSaidaBaixoLateral.w = 110;
     marquesSaidaBaixoLateral.h = 1;
+    marquesSaidaBaixoLateral.vertical = 0;
     marquesSaidaBaixoLateral.title = "marquesSaidaBaixoLateral";
     marquesSaidaBaixoLateral.class_counter = calloc(demo_classes, sizeof(int));
     boxes[4] = marquesSaidaBaixoLateral;
@@ -369,6 +308,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoSaidaEsquerda.y = 220;
     ottoSaidaEsquerda.w = 1;
     ottoSaidaEsquerda.h = 100;
+    ottoSaidaEsquerda.vertical = 1;
     ottoSaidaEsquerda.title = "ottoSaidaEsquerda";
     ottoSaidaEsquerda.class_counter = calloc(demo_classes, sizeof(int));
     boxes[5] = ottoSaidaEsquerda;
@@ -378,6 +318,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoSaidaDireita.y = 150;
     ottoSaidaDireita.w = 1;
     ottoSaidaDireita.h = 110;
+    ottoSaidaDireita.vertical = 1;
     ottoSaidaDireita.title = "ottoSaidaDireita";
     ottoSaidaDireita.class_counter = calloc(demo_classes, sizeof(int));
     boxes[6] = ottoSaidaDireita;
@@ -387,6 +328,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoEntradaEsquerda.y = 135;
     ottoEntradaEsquerda.w = 1;
     ottoEntradaEsquerda.h = 55;
+    ottoEntradaEsquerda.vertical = 1;
     ottoEntradaEsquerda.title = "ottoEntradaEsquerda";
     ottoEntradaEsquerda.class_counter = calloc(demo_classes, sizeof(int));
     boxes[7] = ottoEntradaEsquerda;
@@ -396,6 +338,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoEntradaDireita.y = 200;
     ottoEntradaDireita.w = 1;
     ottoEntradaDireita.h = 55;
+    ottoEntradaDireita.vertical = 1;
     ottoEntradaDireita.title = "ottoEntradaDireita";
     ottoEntradaDireita.class_counter = calloc(demo_classes, sizeof(int));
     boxes[8] = ottoEntradaDireita;
@@ -420,6 +363,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
         pthread_join(detect_thread, 0);
         ++count;
     }
+
 }
 
 /*
