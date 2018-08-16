@@ -238,7 +238,7 @@ image **load_alphabet()
 
 // TODO: Carlos V Bortolotti
 // Imprimir as marcacoes
-void draw_marks(image im, box *boxes) {
+void draw_marks(image im, line_mark *boxes) {
     // TODO:?
     int i;
     int num;
@@ -247,7 +247,7 @@ void draw_marks(image im, box *boxes) {
 
     for (i = 0; i < num; ++i) {
 
-        box b = boxes[i];
+        line_mark b = boxes[i];
 
         int offset = (i+1)*123457 % num;
         float red = get_color(2,offset,num);
