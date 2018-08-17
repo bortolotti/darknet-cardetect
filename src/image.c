@@ -238,12 +238,12 @@ image **load_alphabet()
 
 // TODO: Carlos V Bortolotti
 // Imprimir as marcacoes
-void draw_marks(image im, line_mark *boxes) {
+void draw_marks(image im, line_mark *boxes, int lines_marks) {
     // TODO:?
     int i;
     int num;
 
-    num = sizeof(boxes);
+    num = lines_marks;
 
     for (i = 0; i < num; ++i) {
 
@@ -267,6 +267,107 @@ void draw_marks(image im, line_mark *boxes) {
         draw_box_width(im, left, top, right, bot, 1, red, green, blue);
 
     }
+
+}
+
+
+// ==================================================
+// TODO: Carlos V. Bortolotti
+// Verificar se o objeto colide com a marcação
+// ==================================================
+void check_collision(line_mark *marks, int lines_marks, image im, detection *dets, int num, float thresh, char **names, int classes)
+{
+    int i,j,l;
+    int lines;
+
+    lines = lines_marks;
+
+    for(i = 0; i < num; ++i){
+        
+        int class = -1;
+        
+        for(j = 0; j < classes; ++j){
+            if (dets[i].prob[j] > thresh){
+                if (class < 0) {
+                    class = j;
+                }
+            }
+        }
+        
+        if(class >= 0) {
+
+            box b = dets[i].bbox;
+
+            // int width = im.h * .006;
+            // int object_left  = (b.x-b.w/2.)*im.w;
+            // int object_right = (b.x+b.w/2.)*im.w;
+            // int object_top   = (b.y-b.h/2.)*im.h;
+            // int object_bottom   = (b.y+b.h/2.)*im.h;
+
+            // if(object_left < 0) object_left = 0;
+            // if(object_right > im.w-1) object_right = im.w-1;
+            // if(object_top < 0) object_top = 0;
+            // if(object_bottom > im.h-1) object_bottom = im.h-1;
+
+            // Verificar se o objeto colide com alguma das linhas de marcação
+            for (l = 0; l < lines; ++l) {
+
+                line_mark line = marks[l];
+
+                // int line_left  = (line.x-line.w/2.)*im.w;
+                // int line_right = (line.x+line.w/2.)*im.w;
+                // int line_top   = (line.y-line.h/2.)*im.h;
+                // int line_bottom   = (line.y+line.h/2.)*im.h;
+
+                // if(line_left < 0) line_left = 0;
+                // if(line_right > im.w-1) line_right = im.w-1;
+                // if(line_top < 0) line_top = 0;
+                // if(line_bottom > im.h-1) line_bottom = im.h-1;
+
+                bool is_vertical = (line.vertical == 1);
+                bool is_cross;
+
+                if (is_vertical) {
+                    float line_size = (line.y + line.h);
+                    is_cross = (b.x == line.x && (b.y >= line.y && b.y <= line_size));
+                }
+                else {
+                    float line_size = (line.x + line.w);
+                    is_cross = ((b.x >= line.x && (b.x <= line_size)) && b.y == line.y);
+                }
+
+                if (is_cross) {
+                    line.class_counter[class] += 1;
+                }
+
+            }
+
+        }
+
+    }
+
+    // *************************************************
+    // Gerar um arquivo contendo os dados da detecção
+    // *************************************************
+
+    char vbuff[1024];
+    snprintf(vbuff, 1024, "%s/detected_results.txt", "data");
+    FILE *fp = fopen(vbuff, "w");
+
+    fprintf(fp, "Marcações %i\n", lines);
+
+    for (l = 0; l < lines; ++l) {
+        line_mark line = marks[l];
+        fprintf(fp, "Local '%s'\n", line.title);
+        for(j = 0; j < classes; ++j){
+            fprintf(fp, "Classe '%s'", names[j]);
+            fprintf(fp, ", Passou: %i\n", line.class_counter[j]);
+        }
+    }
+
+    fclose(fp);
+
+    // *************************************************
 
 }
 
@@ -323,20 +424,6 @@ void draw_detections(image im, detection *dets, int num, float thresh, char **na
             if(right > im.w-1) right = im.w-1;
             if(top < 0) top = 0;
             if(bot > im.h-1) bot = im.h-1;
-
-            // TODO: Carlos V. Bortolotti
-            char vbuff[1024];
-            snprintf(vbuff, 1024, "%s/video_results.txt", "data");
-            FILE *fp = fopen(vbuff, "a");
-            fprintf(fp, "begin '%s'\n", names[class]);
-            fprintf(fp, " class: '%s'\n", names[class]);
-            fprintf(fp, " top: %i\n", top);
-            fprintf(fp, " right: %i\n", right);
-            fprintf(fp, " bottom: %i\n", bot);
-            fprintf(fp, " width: %i\n", width);
-            fprintf(fp, "end '%s'\n", names[class]);
-            fclose(fp);
-            // *************************************************
 
             draw_box_width(im, left, top, right, bot, width, red, green, blue);
             if (alphabet) {

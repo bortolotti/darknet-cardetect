@@ -38,6 +38,7 @@ double demo_time;
 
 // TODO: Carlos V Bortolotti
 static line_mark *demo_line_marks;
+static int demo_lines;
 
 detection *get_network_boxes(network *net, int w, int h, float thresh, float hier, int *map, int relative, int *num);
 
@@ -133,9 +134,14 @@ void *detect_in_thread(void *ptr)
     printf("Objects:\n\n");
     image display = buff[(buff_index+2) % 3];
 
-    draw_marks(display, demo_line_marks);
+    draw_marks(display, demo_line_marks, demo_lines);
 
     draw_detections(display, dets, nboxes, demo_thresh, demo_names, demo_alphabet, demo_classes);
+
+    // TODO: Carlos V. Bortolotti
+    // Verificar a colisão dos objetos e gerar arquivo com o resultado.
+    check_collision(demo_line_marks, demo_lines, display, dets, nboxes, demo_thresh, demo_names, demo_classes);
+
     free_detections(dets, nboxes);
 
     demo_index = (demo_index + 1)%demo_frame;
@@ -334,8 +340,8 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     boxes[7] = ottoEntradaEsquerda;
 
     line_mark ottoEntradaDireita = {0};
-    ottoEntradaDireita.x = 460;
-    ottoEntradaDireita.y = 200;
+    ottoEntradaDireita.x = 480;
+    ottoEntradaDireita.y = 240;
     ottoEntradaDireita.w = 1;
     ottoEntradaDireita.h = 55;
     ottoEntradaDireita.vertical = 1;
@@ -343,6 +349,9 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoEntradaDireita.class_counter = calloc(demo_classes, sizeof(int));
     boxes[8] = ottoEntradaDireita;
     demo_line_marks = boxes;
+
+    int num_line_marks = sizeof(boxes)/sizeof(boxes[0]);
+    demo_lines = num_line_marks;
 
     demo_time = what_time_is_it_now();
 
