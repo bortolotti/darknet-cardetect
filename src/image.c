@@ -311,12 +311,12 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
 
             float b_x = b.x * im.w;
             float b_y = b.y * im.h;
-            float b_h = b.h * im.h;
-            float b_w = b.w * im.w;
+            //float b_h = b.h * im.h;
+            //float b_w = b.w * im.w;
 
-            printf("Encontrou: %s", names[class]);
-            printf(",x: %f", b_x);
-            printf(",y: %f\n", b_y);
+            //printf("Encontrou: %s", names[class]);
+            //printf(",x: %f", b_x);
+            //printf(",y: %f\n", b_y);
             // printf(",h: %f", b_h);
             // printf(",w: %f\n", b_w);
 
@@ -326,9 +326,9 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
 
                 line_mark line = marks[l];
 
-                printf("Checando: %s", line.title);
-                printf(",x: %f", line.x);
-                printf(",y: %f\n", line.y);
+                //printf("Checando: %s", line.title);
+                //printf(",x: %f", line.x);
+                //printf(",y: %f\n", line.y);
 
                 // int line_left  = (line.x-line.w/2.);
                 // int line_right = (line.x+line.w/2.);
@@ -341,8 +341,8 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
                 float centro_x = b_x; // + (b_w / 2);
                 float centro_y = b_y; // + (b_h / 2);
 
-                draw_box_width(im, centro_x, centro_y, centro_x, centro_y, 1, 0.0, 0.0, 0.0);
-                draw_box_width(im, line.x, line.y, line.x, line.y, 1, 0.0, 0.0, 0.0);
+                //draw_box_width(im, centro_x, centro_y, centro_x, centro_y, 1, 0.0, 0.0, 0.0);
+                //draw_box_width(im, line.x, line.y, line.x, line.y, 1, 0.0, 0.0, 0.0);
 
                 if (is_vertical) {
                     //float line_size = (line.y + line.h) / 2;
@@ -356,13 +356,13 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
                 }
 
                 if (is_cross) {
-                    printf("Colidiu vertical: %i\n", line.vertical);
+                    //printf("Colidiu vertical: %i\n", line.vertical);
                     line.class_counter[class] += 1;
                 }
 
             }
 
-            printf("...\n");
+            //printf("...\n");
 
         }
 
