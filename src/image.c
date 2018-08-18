@@ -292,11 +292,15 @@ bool compare_position(float p1x, float p1y, float p2x, float p2y) {
 // ==================================================
 bool check_collision_object(box b1, box b2) {
 
-    float p_b1_x1, p_b1_x2 = b1.x, b1.x + b1.w;
-    float p_b1_y1, p_b1_y2 = b1.y, b1.y + b1.h;
+    float p_b1_x1 = b1.x;
+    float p_b1_x2 = b1.x + b1.w;
+    float p_b1_y1 = b1.y;
+    float p_b1_y2 = b1.y + b1.h;
 
-    float p_b2_x1, p_b2_x2 = b2.x, b2.x + b2.w;
-    float p_b2_y1, p_b2_y2 = b2.y, b2.y + b2.h;
+    float p_b2_x1 = b2.x;
+    float p_b2_x2 = b2.x + b2.w;
+    float p_b2_y1 = b2.y;
+    float p_b2_y2 = b2.y + b2.h;
 
     bool hm = compare_position(p_b1_x1, p_b1_x2, p_b2_x1, p_b2_x2);
     bool vm = compare_position(p_b1_y1, p_b1_y2, p_b2_y1, p_b2_y2);
