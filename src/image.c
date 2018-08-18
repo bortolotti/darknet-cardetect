@@ -275,9 +275,33 @@ void draw_marks(image im, line_mark *boxes, int lines_marks) {
 // TODO: Carlos V. Bortolotti
 // Verificar se dois objetos colidem
 // ==================================================
+bool compare_position(float p1x, float p1y, float p2x, float p2y) {
+
+    float x1 = p1x < p2x ? p1x : p2x;
+    float y1 = p1x < p2x ? p1y : p2y;
+
+    float x2 = p1x < p2x ? p2x : p1x;
+    float y2 = p1x < p2x ? p2y : p1y;
+
+    return y1 > x2 || x1 === x2 ? true : false;
+}
+
+// ==================================================
+// TODO: Carlos V. Bortolotti
+// Verificar se dois objetos colidem
+// ==================================================
 bool check_collision_object(box b1, box b2) {
 
-    return false;
+    float p_b1_x1, p_b1_x2 = b1.x, b1.x + b1.w;
+    float p_b1_y1, p_b1_y2 = b1.y, b1.y + b1.h;
+
+    float p_b2_x1, p_b2_x2 = b2.x, b2.x + b2.w;
+    float p_b2_y1, p_b2_y2 = b2.y, b2.y + b2.h;
+
+    bool hm = compare_position(p_b1_x1, p_b1_x2, p_b2_x1, p_b2_x2);
+    bool vm = compare_position(p_b1_y1, p_b1_y2, p_b2_y1, p_b2_y2);
+
+    return hm && vm;
 }
 
 // ==================================================
