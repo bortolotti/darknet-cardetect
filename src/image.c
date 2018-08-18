@@ -316,9 +316,9 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
 
             printf("Encontrou: %s", names[class]);
             printf(",x: %f", b_x);
-            printf(",y: %f", b_y);
-            printf(",h: %f", b_h);
-            printf(",w: %f\n", b_w);
+            printf(",y: %f\n", b_y);
+            // printf(",h: %f", b_h);
+            // printf(",w: %f\n", b_w);
 
 
             // Verificar se o objeto colide com alguma das linhas de marcação
@@ -328,9 +328,7 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
 
                 printf("Checando: %s", line.title);
                 printf(",x: %f", line.x);
-                printf(",y: %f", line.y);
-                printf(",w: %f", line.w);
-                printf(",h: %f\n", line.h);
+                printf(",y: %f\n", line.y);
 
                 // int line_left  = (line.x-line.w/2.);
                 // int line_right = (line.x+line.w/2.);
@@ -340,18 +338,21 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
                 bool is_vertical = (line.vertical == 1);
                 bool is_cross;
 
-                float centro_x = b_x + (b_w / 2);
-                float centro_y = b_y + (b_h / 2);
+                float centro_x = b_x; // + (b_w / 2);
+                float centro_y = b_y; // + (b_h / 2);
+
+                draw_box_width(im, centro_x, centro_y, centro_x, centro_y, 1, 0.0, 0.0, 0.0);
+                draw_box_width(im, line.x, line.y, line.x, line.y, 1, 0.0, 0.0, 0.0);
 
                 if (is_vertical) {
                     //float line_size = (line.y + line.h) / 2;
                     float line_size = line.h / 2;
-                    is_cross = (((centro_x >= (line.x - 1)) && (centro_x <= (line.x + 1))) && (centro_y >= (line.y - line_size) && centro_y <= (line.y + line_size)));
+                    is_cross = (((centro_x >= (line.x - 2)) && (centro_x <= (line.x + 2))) && (centro_y >= (line.y - line_size) && centro_y <= (line.y + line_size)));
                 }
                 else {
                     //float line_size = (line.x + line.w) / 2;
                     float line_size = line.w / 2;
-                    is_cross = (((centro_y >= (line.y - 1)) && (centro_y <= (line.y + 1))) && (centro_x >= (line.x - line_size) && centro_x <= (line.x + line_size)));
+                    is_cross = (((centro_y >= (line.y - 2)) && (centro_y <= (line.y + 2))) && (centro_x >= (line.x - line_size) && centro_x <= (line.x + line_size)));
                 }
 
                 if (is_cross) {
