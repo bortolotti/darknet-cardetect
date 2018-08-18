@@ -268,6 +268,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     marquesSaidaCima.vertical = 0;
     marquesSaidaCima.title = "marquesSaidaCima";
     marquesSaidaCima.class_counter = calloc(demo_classes, sizeof(int));
+    //marquesSaidaCima.last_cross = {0};
     boxes[0] = marquesSaidaCima;
 
     line_mark marquesEntradaCima = {0};
@@ -278,6 +279,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     marquesEntradaCima.vertical = 0;
     marquesEntradaCima.title = "marquesEntradaCima";
     marquesEntradaCima.class_counter = calloc(demo_classes, sizeof(int));
+    //marquesEntradaCima.last_cross = {0};
     boxes[1] = marquesEntradaCima;
 
     line_mark marquesSaidaBaixo = {0};
@@ -288,6 +290,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     marquesSaidaBaixo.vertical = 0;    
     marquesSaidaBaixo.title = "marquesSaidaBaixo";
     marquesSaidaBaixo.class_counter = calloc(demo_classes, sizeof(int));
+    //marquesSaidaBaixo.last_cross = {0};
     boxes[2] = marquesSaidaBaixo;
 
     line_mark marquesEntradaBaixo = {0};
@@ -298,6 +301,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     marquesEntradaBaixo.vertical = 0;
     marquesEntradaBaixo.title = "marquesEntradaBaixo";
     marquesEntradaBaixo.class_counter = calloc(demo_classes, sizeof(int));
+    //marquesEntradaBaixo.last_cross = {0};
     boxes[3] = marquesEntradaBaixo;
 
     line_mark marquesSaidaBaixoLateral = {0};
@@ -308,6 +312,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     marquesSaidaBaixoLateral.vertical = 0;
     marquesSaidaBaixoLateral.title = "marquesSaidaBaixoLateral";
     marquesSaidaBaixoLateral.class_counter = calloc(demo_classes, sizeof(int));
+    //marquesSaidaBaixoLateral.last_cross = {0};
     boxes[4] = marquesSaidaBaixoLateral;
 
     line_mark ottoSaidaEsquerda = {0};
@@ -318,6 +323,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoSaidaEsquerda.vertical = 1;
     ottoSaidaEsquerda.title = "ottoSaidaEsquerda";
     ottoSaidaEsquerda.class_counter = calloc(demo_classes, sizeof(int));
+    //ottoSaidaEsquerda.last_cross = {0};
     boxes[5] = ottoSaidaEsquerda;
 
     line_mark ottoSaidaDireita = {0};
@@ -328,6 +334,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoSaidaDireita.vertical = 1;
     ottoSaidaDireita.title = "ottoSaidaDireita";
     ottoSaidaDireita.class_counter = calloc(demo_classes, sizeof(int));
+    //ottoSaidaDireita.last_cross = {0};
     boxes[6] = ottoSaidaDireita;
 
     line_mark ottoEntradaEsquerda = {0};
@@ -338,6 +345,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoEntradaEsquerda.vertical = 1;
     ottoEntradaEsquerda.title = "ottoEntradaEsquerda";
     ottoEntradaEsquerda.class_counter = calloc(demo_classes, sizeof(int));
+    //ottoEntradaEsquerda.last_cross = {0};
     boxes[7] = ottoEntradaEsquerda;
 
     line_mark ottoEntradaDireita = {0};
@@ -348,6 +356,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoEntradaDireita.vertical = 1;
     ottoEntradaDireita.title = "ottoEntradaDireita";
     ottoEntradaDireita.class_counter = calloc(demo_classes, sizeof(int));
+    //ottoEntradaDireita.last_cross = {0};
     boxes[8] = ottoEntradaDireita;
 
     demo_line_marks = boxes;

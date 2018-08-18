@@ -273,6 +273,15 @@ void draw_marks(image im, line_mark *boxes, int lines_marks) {
 
 // ==================================================
 // TODO: Carlos V. Bortolotti
+// Verificar se dois objetos colidem
+// ==================================================
+bool check_collision_object(box b1, box b2) {
+
+    return false;
+}
+
+// ==================================================
+// TODO: Carlos V. Bortolotti
 // Verificar se o objeto colide com a marcação
 // ==================================================
 void check_collision(line_mark *marks, int lines_marks, image im, detection *dets, int num, float thresh, char **names, int classes)
@@ -311,8 +320,9 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
 
             float b_x = b.x * im.w;
             float b_y = b.y * im.h;
-            //float b_h = b.h * im.h;
-            //float b_w = b.w * im.w;
+            float b_h = b.h * im.h;
+            float b_w = b.w * im.w;
+            float tolerance = 0.75;
 
             //printf("Encontrou: %s", names[class]);
             //printf(",x: %f", b_x);
@@ -341,23 +351,44 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
                 float centro_x = b_x; // + (b_w / 2);
                 float centro_y = b_y; // + (b_h / 2);
 
-                //draw_box_width(im, centro_x, centro_y, centro_x, centro_y, 1, 0.0, 0.0, 0.0);
-                //draw_box_width(im, line.x, line.y, line.x, line.y, 1, 0.0, 0.0, 0.0);
+                // draw_box_width(im, centro_x, centro_y, centro_x, centro_y, 1, 0.0, 0.0, 0.0);
+                // draw_box_width(im, line.x, line.y, line.x, line.y, 1, 0.0, 0.0, 0.0);
 
                 if (is_vertical) {
                     //float line_size = (line.y + line.h) / 2;
                     float line_size = line.h / 2;
-                    is_cross = (((centro_x >= (line.x - 2)) && (centro_x <= (line.x + 2))) && (centro_y >= (line.y - line_size) && centro_y <= (line.y + line_size)));
+                    float object_tolerance = (b_w * tolerance)/2;
+                    is_cross = (((centro_x >= (line.x - object_tolerance)) && (centro_x <= (line.x + object_tolerance))) && (centro_y >= (line.y - line_size) && centro_y <= (line.y + line_size)));
+                    // draw_box_width(im, line.x, (line.y - line_size), line.x, (line.y - line_size), 1, 0.0, 0.0, 0.0);
+                    // draw_box_width(im, line.x, (line.y + line_size), line.x, (line.y + line_size), 1, 0.0, 0.0, 0.0);
                 }
                 else {
                     //float line_size = (line.x + line.w) / 2;
                     float line_size = line.w / 2;
-                    is_cross = (((centro_y >= (line.y - 2)) && (centro_y <= (line.y + 2))) && (centro_x >= (line.x - line_size) && centro_x <= (line.x + line_size)));
+                    float object_tolerance = (b_h * tolerance)/2;
+                    is_cross = (((centro_y >= (line.y - object_tolerance)) && (centro_y <= (line.y + object_tolerance))) && (centro_x >= (line.x - line_size) && centro_x <= (line.x + line_size)));
+                    // draw_box_width(im, (line.x - line_size), line.y, (line.x - line_size), line.y, 1, 0.0, 0.0, 0.0);
+                    // draw_box_width(im, (line.x + line_size), line.y, (line.x + line_size), line.y, 1, 0.0, 0.0, 0.0);
                 }
 
                 if (is_cross) {
                     //printf("Colidiu vertical: %i\n", line.vertical);
-                    line.class_counter[class] += 1;
+                    box lc = line.last_cross;
+
+                    box new_cross = {0};
+                    new_cross.x = centro_x;
+                    new_cross.y = centro_y;
+                    new_cross.w = b_w;
+                    new_cross.h = b_h;
+
+                    if (!check_collision_object(lc, new_cross)) {
+                        line.class_counter[class] += 1;
+                        line.last_cross = new_cross;
+                    }
+
+                } else {
+                    box lc = {0};
+                    line.last_cross = lc;
                 }
 
             }
