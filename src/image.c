@@ -345,12 +345,12 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
 
                 if (is_vertical) {
                     float line_size = (line.y + line.h) / 2;
-                    is_cross = (((centro_x >= (line.x - 2)) && (centro_x <= (line.x + 2))) && (centro_y >= (line.y - line_size) && centro_y <= (line.y + line_size)));
+                    is_cross = (((centro_x >= (line.x - 1)) && (centro_x <= (line.x + 1))) && (centro_y >= (line.y - line_size) && centro_y <= (line.y + line_size)));
                 }
                 else {
                     float line_size = (line.x + line.w) / 2;
                     //is_cross = ((b_x >= line.x && (b_x <= line_size)) && b_y == line.y);
-                    is_cross = (((centro_y >= (line.y - 2)) && (centro_y <= (line.y + 2))) && (centro_x >= (line.x - line_size) && centro_x <= (line.x + line_size)));
+                    is_cross = (((centro_y >= (line.y - 1)) && (centro_y <= (line.y + 1))) && (centro_x >= (line.x - line_size) && centro_x <= (line.x + line_size)));
                 }
 
                 if (is_cross) {
