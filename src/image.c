@@ -310,8 +310,8 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
             // printf(",bottom: %f\n", object_bottom);
 
             float b_x = b.x * im.w;
-            float b_y = b.y * im.w;
-            float b_h = b.h * im.w;
+            float b_y = b.y * im.h;
+            float b_h = b.h * im.h;
             float b_w = b.w * im.w;
 
             printf("Encontrou: %s", names[class]);
