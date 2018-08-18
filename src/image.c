@@ -283,7 +283,7 @@ bool compare_position(float p1x, float p1y, float p2x, float p2y) {
     float x2 = p1x < p2x ? p2x : p1x;
     float y2 = p1x < p2x ? p2y : p1y;
 
-    return y1 > x2 || x1 === x2 ? true : false;
+    return y1 > x2 || x1 == x2 ? true : false;
 }
 
 // ==================================================
