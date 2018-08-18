@@ -259,10 +259,10 @@ void draw_marks(image im, line_mark *boxes, int lines_marks) {
         int top   = (b.y-b.h/2.); //*im.h;
         int bot   = (b.y+b.h/2.); //*im.h;
 
-        if(left < 0) left = 0;
-        if(right > im.w-1) right = im.w-1;
-        if(top < 0) top = 0;
-        if(bot > im.h-1) bot = im.h-1;
+        // if(left < 0) left = 0;
+        // if(right > im.w-1) right = im.w-1;
+        // if(top < 0) top = 0;
+        // if(bot > im.h-1) bot = im.h-1;
 
         draw_box_width(im, left, top, right, bot, 1, red, green, blue);
 
@@ -298,49 +298,69 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
 
             box b = dets[i].bbox;
 
-            // int width = im.h * .006;
-            // int object_left  = (b.x-b.w/2.)*im.w;
-            // int object_right = (b.x+b.w/2.)*im.w;
-            // int object_top   = (b.y-b.h/2.)*im.h;
-            // int object_bottom   = (b.y+b.h/2.)*im.h;
+            // float object_left  = (b.x-b.w/2.)*im.w;
+            // float object_right = (b.x+b.w/2.)*im.w;
+            // float object_top   = (b.y-b.h/2.)*im.h;
+            // float object_bottom   = (b.y+b.h/2.)*im.h;
 
-            // if(object_left < 0) object_left = 0;
-            // if(object_right > im.w-1) object_right = im.w-1;
-            // if(object_top < 0) object_top = 0;
-            // if(object_bottom > im.h-1) object_bottom = im.h-1;
+            // printf("Encontrou: %s", names[class]);
+            // printf(",left: %f", object_left);
+            // printf(",right: %f", object_right);
+            // printf(",top: %f", object_top);
+            // printf(",bottom: %f\n", object_bottom);
+
+            float b_x = b.x * im.w;
+            float b_y = b.y * im.w;
+            float b_h = b.h * im.w;
+            float b_w = b.w * im.w;
+
+            printf("Encontrou: %s", names[class]);
+            printf(",x: %f", b_x);
+            printf(",y: %f", b_y);
+            printf(",h: %f", b_h);
+            printf(",w: %f\n", b_w);
+
 
             // Verificar se o objeto colide com alguma das linhas de marcação
             for (l = 0; l < lines; ++l) {
 
                 line_mark line = marks[l];
 
-                // int line_left  = (line.x-line.w/2.)*im.w;
-                // int line_right = (line.x+line.w/2.)*im.w;
-                // int line_top   = (line.y-line.h/2.)*im.h;
-                // int line_bottom   = (line.y+line.h/2.)*im.h;
+                printf("Checando: %s", line.title);
+                printf(",x: %f", line.x);
+                printf(",y: %f", line.y);
+                printf(",w: %f", line.w);
+                printf(",h: %f\n", line.h);
 
-                // if(line_left < 0) line_left = 0;
-                // if(line_right > im.w-1) line_right = im.w-1;
-                // if(line_top < 0) line_top = 0;
-                // if(line_bottom > im.h-1) line_bottom = im.h-1;
+                // int line_left  = (line.x-line.w/2.);
+                // int line_right = (line.x+line.w/2.);
+                // int line_top   = (line.y-line.h/2.);
+                // int line_bottom   = (line.y+line.h/2.);
 
                 bool is_vertical = (line.vertical == 1);
                 bool is_cross;
 
+                float centro_x = b_x + (b_w / 2);
+                float centro_y = b_y + (b_h / 2);
+
                 if (is_vertical) {
-                    float line_size = (line.y + line.h);
-                    is_cross = (b.x == line.x && (b.y >= line.y && b.y <= line_size));
+                    float line_size = (line.y + line.h) / 2;
+                    is_cross = (((centro_x >= (line.x - 2)) && (centro_x <= (line.x + 2))) && (centro_y >= (line.y - line_size) && centro_y <= (line.y + line_size)));
                 }
                 else {
-                    float line_size = (line.x + line.w);
-                    is_cross = ((b.x >= line.x && (b.x <= line_size)) && b.y == line.y);
+                    float line_size = (line.x + line.w) / 2;
+                    //is_cross = ((b_x >= line.x && (b_x <= line_size)) && b_y == line.y);
+                    is_cross = (((centro_y >= (line.y - 2)) && (centro_y <= (line.y + 2))) && (centro_x >= (line.x - line_size) && centro_x <= (line.x + line_size)));
                 }
 
                 if (is_cross) {
+                    printf("Colidiu vertical: %i\n", line.vertical);
                     line.class_counter[class] += 1;
                 }
 
             }
+
+            printf("...\n");
 
         }
 

@@ -259,6 +259,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     // TODO: Carlos V Bortolotti
     // Criar linhas de marcação
     line_mark boxes[9];
+
     line_mark marquesSaidaCima = {0};
     marquesSaidaCima.x = 320;
     marquesSaidaCima.y = 40;
@@ -348,6 +349,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoEntradaDireita.title = "ottoEntradaDireita";
     ottoEntradaDireita.class_counter = calloc(demo_classes, sizeof(int));
     boxes[8] = ottoEntradaDireita;
+
     demo_line_marks = boxes;
 
     int num_line_marks = sizeof(boxes)/sizeof(boxes[0]);
