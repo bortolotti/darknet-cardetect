@@ -276,15 +276,15 @@ void draw_marks(image im, line_mark *boxes, int lines_marks) {
 // ==================================================
 bool check_collision_object(box *b1, box *b2) {
 
-    float p_b1_x = (b1.x-b1.w/2.);
-    float p_b1_w = (b1.x+b1.w/2.);
-    float p_b1_y = (b1.y-b1.h/2.);
-    float p_b1_h = (b1.y+b1.h/2.);    
+    float p_b1_x = (b1->x-b1->w/2.);
+    float p_b1_w = (b1->x+b1->w/2.);
+    float p_b1_y = (b1->y-b1->h/2.);
+    float p_b1_h = (b1->y+b1->h/2.);    
 
-    float p_b2_x = (b2.x-b2.w/2.);
-    float p_b2_w = (b2.x+b2.w/2.);
-    float p_b2_y = (b2.y-b2.h/2.);
-    float p_b2_h = (b2.y+b2.h/2.);    
+    float p_b2_x = (b2->x-b2->w/2.);
+    float p_b2_w = (b2->x+b2->w/2.);
+    float p_b2_y = (b2->y-b2->h/2.);
+    float p_b2_h = (b2->y+b2->h/2.);    
 
     bool r =
            (p_b1_w >= p_b2_x && 
