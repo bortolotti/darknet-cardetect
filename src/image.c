@@ -286,10 +286,24 @@ bool check_collision_object(box b1, box b2) {
     float p_b2_y = (b2.y-b2.h/2.);
     float p_b2_h = (b2.y+b2.h/2.);    
 
-    return (p_b1_w >= p_b2_x && 
+    bool r =
+           (p_b1_w >= p_b2_x && 
             p_b1_x <= p_b2_w && 
             p_b1_h >= p_b2_y &&
             p_b1_y <= p_b2_h);
+
+
+    printf("p_b1_x: %f, ", p_b1_x);
+    printf("p_b1_w: %f, ", p_b1_w);
+    printf("p_b1_y: %f, ", p_b1_y);
+    printf("p_b1_h: %f\n", p_b1_h);
+
+    printf("p_b2_x: %f,", p_b2_x);
+    printf("p_b2_w: %f,", p_b2_w);
+    printf("p_b2_y: %f,", p_b2_y);
+    printf("p_b2_h: %f\n", p_b2_h);
+
+    return r;            
 }
 
 // ==================================================
@@ -386,7 +400,6 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
                 if (is_cross) {
                     //printf("Colidiu vertical: %i\n", line.vertical);
                     box lc = line.last_cross;
-
                     box new_cross = {0};
                     new_cross.x = centro_x;
                     new_cross.y = centro_y;
@@ -400,6 +413,10 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
 
                 } else {
                     box lc = {0};
+                    lc.x = 0;
+                    lc.y = 0;
+                    lc.w = 0;
+                    lc.h = 0;
                     line.last_cross = lc;
                 }
 
