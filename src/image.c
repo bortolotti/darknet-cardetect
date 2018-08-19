@@ -399,13 +399,15 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
 
                 if (is_cross) {
                     //printf("Colidiu vertical: %i\n", line.vertical);
-                    box lc = line.last_cross;
+                    box lc = &line.last_cross;
+                    if (!lc) lc = {0};
+
                     box new_cross = {0};
                     new_cross.x = centro_x;
                     new_cross.y = centro_y;
                     new_cross.w = b_w;
                     new_cross.h = b_h;
-                    line.last_cross = new_cross;
+                    line.last_cross->new_cross;
 
                     if (!check_collision_object(lc, new_cross)) {
                         line.class_counter[class] += 1;

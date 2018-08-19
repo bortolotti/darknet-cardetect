@@ -593,7 +593,7 @@ typedef struct {
     int vertical;
     char *title;
     int *class_counter;
-    box last_cross;
+    box *last_cross;
 } line_mark;
 
 network *load_network(char *cfg, char *weights, int clear);
