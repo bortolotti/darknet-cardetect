@@ -2,5 +2,6 @@
     "files.associations": {
         "*.tcc": "c",
         "string_view": "c"
-    }
+    },
+    "C_Cpp.dimInactiveRegions": false
 }
