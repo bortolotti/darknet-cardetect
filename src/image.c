@@ -405,20 +405,21 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
                     new_cross.y = centro_y;
                     new_cross.w = b_w;
                     new_cross.h = b_h;
+                    line.last_cross = new_cross;
 
                     if (!check_collision_object(lc, new_cross)) {
                         line.class_counter[class] += 1;
-                        line.last_cross = new_cross;
                     }
 
-                } else {
-                    box lc = {0};
-                    lc.x = 0;
-                    lc.y = 0;
-                    lc.w = 0;
-                    lc.h = 0;
-                    line.last_cross = lc;
-                }
+                } 
+                // else {
+                //     box lc = {0};
+                //     lc.x = 0;
+                //     lc.y = 0;
+                //     lc.w = 0;
+                //     lc.h = 0;
+                //     line.last_cross = lc;
+                // }
 
             }
 
