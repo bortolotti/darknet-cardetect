@@ -334,7 +334,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoSaidaDireita.vertical = 1;
     ottoSaidaDireita.title = "ottoSaidaDireita";
     ottoSaidaDireita.class_counter = calloc(demo_classes, sizeof(int));
-    ottoSaidaDireita.last_cross = malloc(sizeof(box));
+    //ottoSaidaDireita.last_cross = malloc(sizeof(box));
     boxes[6] = ottoSaidaDireita;
 
     line_mark ottoEntradaEsquerda = {0};

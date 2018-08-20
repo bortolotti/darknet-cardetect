@@ -414,12 +414,15 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
                         if (!check_collision_object(lc, &new_cross)) {
                             line.class_counter[class] += 1;
                         }
+
+                        free(lc);
                         
                     } else {
                         line.class_counter[class] += 1;
                     }
 
                     line.last_cross = &new_cross;
+                    //line.last_cross = &new_cross;
 
                 } 
                 // else {
