@@ -398,7 +398,7 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
                 }
 
                 if (is_cross) {
-                    //printf("Colidiu vertical: %i\n", line.vertical);
+                    printf("Colidiu : %s\n", line.title);
                     box *lc = line.last_cross;
 
                     box new_cross = {0};
@@ -407,11 +407,15 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
                     new_cross.w = b_w;
                     new_cross.h = b_h;
 
-                    if (lc == NULL) {
-                        lc = &new_cross;
-                    }
-
-                    if (!check_collision_object(*lc, &new_cross)) {
+                    if (lc != NULL) {
+                        printf("Antigo (x,y) : %f,%f\n", lc->x, lc->y);
+                        printf("Novo (x,y) : %f,%f\n", centro_x, centro_y);
+                        
+                        if (!check_collision_object(lc, &new_cross)) {
+                            line.class_counter[class] += 1;
+                        }
+                        
+                    } else {
                         line.class_counter[class] += 1;
                     }
 
