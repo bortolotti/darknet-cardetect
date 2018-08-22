@@ -261,9 +261,9 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     line_mark boxes[9];
 
     line_mark marquesSaidaCima = {0};
-    marquesSaidaCima.x = 320;
-    marquesSaidaCima.y = 40;
-    marquesSaidaCima.w = 80;
+    marquesSaidaCima.x = 310;
+    marquesSaidaCima.y = 90;
+    marquesSaidaCima.w = 40;
     marquesSaidaCima.h = 1;
     marquesSaidaCima.vertical = 0;
     marquesSaidaCima.title = "marquesSaidaCima";
@@ -272,9 +272,9 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     boxes[0] = marquesSaidaCima;
 
     line_mark marquesEntradaCima = {0};
-    marquesEntradaCima.x = 405;
-    marquesEntradaCima.y = 40;
-    marquesEntradaCima.w = 80;
+    marquesEntradaCima.x = 344;
+    marquesEntradaCima.y = 90;
+    marquesEntradaCima.w = 28;
     marquesEntradaCima.h = 1;
     marquesEntradaCima.vertical = 0;
     marquesEntradaCima.title = "marquesEntradaCima";
@@ -283,9 +283,9 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     boxes[1] = marquesEntradaCima;
 
     line_mark marquesSaidaBaixo = {0};
-    marquesSaidaBaixo.x = 370;
-    marquesSaidaBaixo.y = 290;
-    marquesSaidaBaixo.w = 110;
+    marquesSaidaBaixo.x = 320;
+    marquesSaidaBaixo.y = 322;
+    marquesSaidaBaixo.w = 50;
     marquesSaidaBaixo.h = 1;
     marquesSaidaBaixo.vertical = 0;    
     marquesSaidaBaixo.title = "marquesSaidaBaixo";
@@ -294,9 +294,9 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     boxes[2] = marquesSaidaBaixo;
 
     line_mark marquesEntradaBaixo = {0};
-    marquesEntradaBaixo.x = 255;
-    marquesEntradaBaixo.y = 290;
-    marquesEntradaBaixo.w = 110;
+    marquesEntradaBaixo.x = 278;
+    marquesEntradaBaixo.y = 322;
+    marquesEntradaBaixo.w = 36;
     marquesEntradaBaixo.h = 1;
     marquesEntradaBaixo.vertical = 0;
     marquesEntradaBaixo.title = "marquesEntradaBaixo";
@@ -305,9 +305,9 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     boxes[3] = marquesEntradaBaixo;
 
     line_mark marquesSaidaBaixoLateral = {0};
-    marquesSaidaBaixoLateral.x = 580;
-    marquesSaidaBaixoLateral.y = 260;
-    marquesSaidaBaixoLateral.w = 110;
+    marquesSaidaBaixoLateral.x = 398;
+    marquesSaidaBaixoLateral.y = 305;
+    marquesSaidaBaixoLateral.w = 45;
     marquesSaidaBaixoLateral.h = 1;
     marquesSaidaBaixoLateral.vertical = 0;
     marquesSaidaBaixoLateral.title = "marquesSaidaBaixoLateral";
@@ -316,10 +316,10 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     boxes[4] = marquesSaidaBaixoLateral;
 
     line_mark ottoSaidaEsquerda = {0};
-    ottoSaidaEsquerda.x = 160;
-    ottoSaidaEsquerda.y = 220;
+    ottoSaidaEsquerda.x = 170;
+    ottoSaidaEsquerda.y = 226;
     ottoSaidaEsquerda.w = 1;
-    ottoSaidaEsquerda.h = 100;
+    ottoSaidaEsquerda.h = 52;
     ottoSaidaEsquerda.vertical = 1;
     ottoSaidaEsquerda.title = "ottoSaidaEsquerda";
     ottoSaidaEsquerda.class_counter = calloc(demo_classes, sizeof(int));
@@ -327,10 +327,10 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     boxes[5] = ottoSaidaEsquerda;
 
     line_mark ottoSaidaDireita = {0};
-    ottoSaidaDireita.x = 480;
-    ottoSaidaDireita.y = 150;
+    ottoSaidaDireita.x = 460;
+    ottoSaidaDireita.y = 192;
     ottoSaidaDireita.w = 1;
-    ottoSaidaDireita.h = 110;
+    ottoSaidaDireita.h = 44;
     ottoSaidaDireita.vertical = 1;
     ottoSaidaDireita.title = "ottoSaidaDireita";
     ottoSaidaDireita.class_counter = calloc(demo_classes, sizeof(int));
@@ -338,10 +338,10 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     boxes[6] = ottoSaidaDireita;
 
     line_mark ottoEntradaEsquerda = {0};
-    ottoEntradaEsquerda.x = 160;
-    ottoEntradaEsquerda.y = 135;
+    ottoEntradaEsquerda.x = 170;
+    ottoEntradaEsquerda.y = 185;
     ottoEntradaEsquerda.w = 1;
-    ottoEntradaEsquerda.h = 55;
+    ottoEntradaEsquerda.h = 30;
     ottoEntradaEsquerda.vertical = 1;
     ottoEntradaEsquerda.title = "ottoEntradaEsquerda";
     ottoEntradaEsquerda.class_counter = calloc(demo_classes, sizeof(int));
@@ -349,10 +349,10 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     boxes[7] = ottoEntradaEsquerda;
 
     line_mark ottoEntradaDireita = {0};
-    ottoEntradaDireita.x = 480;
-    ottoEntradaDireita.y = 240;
+    ottoEntradaDireita.x = 415;
+    ottoEntradaDireita.y = 226;
     ottoEntradaDireita.w = 1;
-    ottoEntradaDireita.h = 55;
+    ottoEntradaDireita.h = 32;
     ottoEntradaDireita.vertical = 1;
     ottoEntradaDireita.title = "ottoEntradaDireita";
     ottoEntradaDireita.class_counter = calloc(demo_classes, sizeof(int));
