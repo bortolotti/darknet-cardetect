@@ -259,14 +259,9 @@ void draw_marks(image im, line_mark *boxes, int lines_marks, int classes, image 
         int top   = (b.y-b.h/2.); //*im.h;
         int bot   = (b.y+b.h/2.); //*im.h;
 
-        // if(left < 0) left = 0;
-        // if(right > im.w-1) right = im.w-1;
-        // if(top < 0) top = 0;
-        // if(bot > im.h-1) bot = im.h-1;
-
         draw_box_width(im, left, top, right, bot, 1, red, green, blue);
 
-        float total = 0;
+        int total = 0;
         int d = 0;
         for (d = 0; d < classes; d++) {
             total += b.class_counter[d];
@@ -274,15 +269,20 @@ void draw_marks(image im, line_mark *boxes, int lines_marks, int classes, image 
 
         int lh = 0;
 
-        if (b.vertical == 1)
-            lh = (b.h * .03);
+        if (b.vertical == 1) 
+            lh = (b.h * .02);
         else
-            lh = (b.w * .03);
+            lh = (b.w * .02);
+
+        float rgb[3] = {0};
+        rgb[0] = red;
+        rgb[1] = green;
+        rgb[2] = blue;
 
         char buff[1024];
-        sprintf(buff, "%f\n", total);
+        sprintf(buff, "%i\n", total);
         image label = get_label(alphabet, buff, lh);
-        draw_label(in, top, left, label, rgb);
+        draw_label(im, top, left, label, rgb);
         free_image(label);
 
     }
