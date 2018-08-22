@@ -238,7 +238,7 @@ image **load_alphabet()
 
 // TODO: Carlos V Bortolotti
 // Imprimir as marcacoes
-void draw_marks(image im, line_mark *boxes, int lines_marks) {
+void draw_marks(image im, line_mark *boxes, int lines_marks, int classes, image **alphabet) {
     // TODO:?
     int i;
     int num;
@@ -265,6 +265,25 @@ void draw_marks(image im, line_mark *boxes, int lines_marks) {
         // if(bot > im.h-1) bot = im.h-1;
 
         draw_box_width(im, left, top, right, bot, 1, red, green, blue);
+
+        float total = 0;
+        int d = 0;
+        for (d = 0; d < classes; d++) {
+            total += b.class_counter[d];
+        }
+
+        int lh = 0;
+
+        if (b.vertical == 1)
+            lh = (b.h * .03);
+        else
+            lh = (b.w * .03);
+
+        char buff[1024];
+        sprintf(buff, "%f\n", total);
+        image label = get_label(alphabet, buff, lh);
+        draw_label(in, top, left, label, rgb);
+        free_image(label);
 
     }
 
@@ -797,6 +816,27 @@ void show_image_cv(image p, const char *name, IplImage *disp)
         cvReleaseImage(&buffer);
     }
     cvShowImage(buff, disp);
+    // DANIEL JOAO PICCOLI - INICIO
+    {
+		CvSize size;
+		{
+			size.width = disp->width, size.height = disp->height;
+		}
+ 		static CvVideoWriter* output_video = NULL;    // cv::VideoWriter output_video;
+		if (output_video == NULL)
+		{
+			printf("\n SRC output_video = %p \n", output_video);
+			const char* output_name = "test_dnn_out.avi";
+			//output_video = cvCreateVideoWriter(output_name, CV_FOURCC('H', '2', '6', '4'), 25, size, 1);
+			output_video = cvCreateVideoWriter(output_name, CV_FOURCC('D', 'I', 'V', 'X'), 25, size, 1);
+			//output_video = cvCreateVideoWriter(output_name, CV_FOURCC('M', 'J', 'P', 'G'), 25, size, 1);
+			printf("\n cvCreateVideoWriter, DST output_video = %p  \n", output_video);
+		}
+ 		cvWriteFrame(output_video, disp);
+		printf("\n cvWriteFrame \n");
+	}
+
+// DANIEL JOAO PICCOLI - FIM
 }
 #endif
 

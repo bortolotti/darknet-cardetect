@@ -134,7 +134,7 @@ void *detect_in_thread(void *ptr)
     printf("Objects:\n\n");
     image display = buff[(buff_index+2) % 3];
 
-    draw_marks(display, demo_line_marks, demo_lines);
+    draw_marks(display, demo_line_marks, demo_lines, demo_classes, demo_alphabet);
 
     draw_detections(display, dets, nboxes, demo_thresh, demo_names, demo_alphabet, demo_classes);
 
@@ -258,18 +258,29 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
 
     // TODO: Carlos V Bortolotti
     // Criar linhas de marcação
-    line_mark boxes[9];
+    line_mark boxes[13];
 
     line_mark marquesSaidaCima = {0};
-    marquesSaidaCima.x = 310;
+    marquesSaidaCima.x = 300;
     marquesSaidaCima.y = 90;
-    marquesSaidaCima.w = 40;
+    marquesSaidaCima.w = 20;
     marquesSaidaCima.h = 1;
     marquesSaidaCima.vertical = 0;
     marquesSaidaCima.title = "marquesSaidaCima";
     marquesSaidaCima.class_counter = calloc(demo_classes, sizeof(int));
     //marquesSaidaCima.last_cross = {0};
     boxes[0] = marquesSaidaCima;
+
+    line_mark marquesSaidaCima2 = {0};
+    marquesSaidaCima2.x = 320;
+    marquesSaidaCima2.y = 90;
+    marquesSaidaCima2.w = 20;
+    marquesSaidaCima2.h = 1;
+    marquesSaidaCima2.vertical = 0;
+    marquesSaidaCima2.title = "marquesSaidaCima2";
+    marquesSaidaCima2.class_counter = calloc(demo_classes, sizeof(int));
+    //marquesSaidaCima.last_cross = {0};
+    boxes[10] = marquesSaidaCima2;
 
     line_mark marquesEntradaCima = {0};
     marquesEntradaCima.x = 344;
@@ -283,15 +294,26 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     boxes[1] = marquesEntradaCima;
 
     line_mark marquesSaidaBaixo = {0};
-    marquesSaidaBaixo.x = 320;
+    marquesSaidaBaixo.x = 308;
     marquesSaidaBaixo.y = 322;
-    marquesSaidaBaixo.w = 50;
+    marquesSaidaBaixo.w = 25;
     marquesSaidaBaixo.h = 1;
     marquesSaidaBaixo.vertical = 0;    
     marquesSaidaBaixo.title = "marquesSaidaBaixo";
     marquesSaidaBaixo.class_counter = calloc(demo_classes, sizeof(int));
     //marquesSaidaBaixo.last_cross = {0};
     boxes[2] = marquesSaidaBaixo;
+
+    line_mark marquesSaidaBaixo2 = {0};
+    marquesSaidaBaixo2.x = 334;
+    marquesSaidaBaixo2.y = 322;
+    marquesSaidaBaixo2.w = 25;
+    marquesSaidaBaixo2.h = 1;
+    marquesSaidaBaixo2.vertical = 0;    
+    marquesSaidaBaixo2.title = "marquesSaidaBaixo2";
+    marquesSaidaBaixo2.class_counter = calloc(demo_classes, sizeof(int));
+    //marquesSaidaBaixo.last_cross = {0};
+    boxes[11] = marquesSaidaBaixo2;
 
     line_mark marquesEntradaBaixo = {0};
     marquesEntradaBaixo.x = 278;
@@ -317,25 +339,47 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
 
     line_mark ottoSaidaEsquerda = {0};
     ottoSaidaEsquerda.x = 170;
-    ottoSaidaEsquerda.y = 226;
+    ottoSaidaEsquerda.y = 213;
     ottoSaidaEsquerda.w = 1;
-    ottoSaidaEsquerda.h = 52;
+    ottoSaidaEsquerda.h = 26;
     ottoSaidaEsquerda.vertical = 1;
     ottoSaidaEsquerda.title = "ottoSaidaEsquerda";
     ottoSaidaEsquerda.class_counter = calloc(demo_classes, sizeof(int));
     //ottoSaidaEsquerda.last_cross = {0};
     boxes[5] = ottoSaidaEsquerda;
 
+    line_mark ottoSaidaEsquerda2 = {0};
+    ottoSaidaEsquerda2.x = 170;
+    ottoSaidaEsquerda2.y = 240;
+    ottoSaidaEsquerda2.w = 1;
+    ottoSaidaEsquerda2.h = 26;
+    ottoSaidaEsquerda2.vertical = 1;
+    ottoSaidaEsquerda2.title = "ottoSaidaEsquerda2";
+    ottoSaidaEsquerda2.class_counter = calloc(demo_classes, sizeof(int));
+    //ottoSaidaEsquerda.last_cross = {0};
+    boxes[6] = ottoSaidaEsquerda2;
+
     line_mark ottoSaidaDireita = {0};
     ottoSaidaDireita.x = 460;
-    ottoSaidaDireita.y = 192;
+    ottoSaidaDireita.y = 181;
     ottoSaidaDireita.w = 1;
-    ottoSaidaDireita.h = 44;
+    ottoSaidaDireita.h = 22;
     ottoSaidaDireita.vertical = 1;
     ottoSaidaDireita.title = "ottoSaidaDireita";
     ottoSaidaDireita.class_counter = calloc(demo_classes, sizeof(int));
     //ottoSaidaDireita.last_cross = {0};
-    boxes[6] = ottoSaidaDireita;
+    boxes[7] = ottoSaidaDireita;
+
+    line_mark ottoSaidaDireita2 = {0};
+    ottoSaidaDireita2.x = 460;
+    ottoSaidaDireita2.y = 203;
+    ottoSaidaDireita2.w = 1;
+    ottoSaidaDireita2.h = 22;
+    ottoSaidaDireita2.vertical = 1;
+    ottoSaidaDireita2.title = "ottoSaidaDireita2";
+    ottoSaidaDireita2.class_counter = calloc(demo_classes, sizeof(int));
+    //ottoSaidaDireita.last_cross = {0};
+    boxes[12] = ottoSaidaDireita2;
 
     line_mark ottoEntradaEsquerda = {0};
     ottoEntradaEsquerda.x = 170;
@@ -346,7 +390,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoEntradaEsquerda.title = "ottoEntradaEsquerda";
     ottoEntradaEsquerda.class_counter = calloc(demo_classes, sizeof(int));
     //ottoEntradaEsquerda.last_cross = {0};
-    boxes[7] = ottoEntradaEsquerda;
+    boxes[8] = ottoEntradaEsquerda;
 
     line_mark ottoEntradaDireita = {0};
     ottoEntradaDireita.x = 415;
@@ -357,7 +401,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     ottoEntradaDireita.title = "ottoEntradaDireita";
     ottoEntradaDireita.class_counter = calloc(demo_classes, sizeof(int));
     //ottoEntradaDireita.last_cross = {0};
-    boxes[8] = ottoEntradaDireita;
+    boxes[9] = ottoEntradaDireita;
 
     demo_line_marks = boxes;
 
