@@ -432,6 +432,25 @@ void check_collision(line_mark *marks, int lines_marks, image im, detection *det
                     
                     if (!check_collision_object(&lc, &new_cross)) {
                         line->class_counter[class] += 1;
+                    } else {
+
+                        if (line->direction < 0) {
+
+                            if ((is_vertical && lc.x < new_cross.x) ||
+                                (!is_vertical && lc.y < new_cross.y)) {
+                                line->class_counter[class] += 1;
+                            }
+
+                        } else if (line->direction > 0) {
+
+                            if ((is_vertical && lc.x > new_cross.x) ||
+                                (!is_vertical && lc.y > new_cross.y)) {
+                                line->class_counter[class] += 1;
+                            }
+
+                        }
+
+
                     }
                         
                     //} else {

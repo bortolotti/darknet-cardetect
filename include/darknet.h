@@ -594,6 +594,7 @@ typedef struct {
     char *title;
     int *class_counter;
     box last_cross;
+    int direction;
 } line_mark;
 
 network *load_network(char *cfg, char *weights, int clear);
