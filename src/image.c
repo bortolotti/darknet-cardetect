@@ -236,6 +236,273 @@ image **load_alphabet()
     return alphabets;
 }
 
+// TODO: Carlos V Bortolotti
+// Imprimir as marcacoes
+void draw_marks(image im, line_mark *boxes, int lines_marks, int classes, image **alphabet) {
+    // TODO:?
+    int i;
+    int num;
+
+    num = lines_marks;
+
+    for (i = 0; i < num; ++i) {
+
+        line_mark b = boxes[i];
+
+        int offset = (i+1)*123457 % num;
+        float red = get_color(2,offset,num);
+        float green = get_color(1,offset,num);
+        float blue = get_color(0,offset,num);
+
+        int left  = (b.x-b.w/2.); //*im.w;
+        int right = (b.x+b.w/2.); //*im.w;
+        int top   = (b.y-b.h/2.); //*im.h;
+        int bot   = (b.y+b.h/2.); //*im.h;
+
+        draw_box_width(im, left, top, right, bot, 1, red, green, blue);
+
+        int total = 0;
+        int d = 0;
+        for (d = 0; d < classes; d++) {
+            total += b.class_counter[d];
+        }
+
+        int lh = 0;
+
+        if (b.vertical == 1) 
+            lh = (b.h * .02);
+        else
+            lh = (b.w * .02);
+
+        float rgb[3] = {0};
+        rgb[0] = red;
+        rgb[1] = green;
+        rgb[2] = blue;
+
+        char buff[1024];
+        sprintf(buff, "%i\n", total);
+        image label = get_label(alphabet, buff, lh);
+        draw_label(im, top, left, label, rgb);
+        free_image(label);
+
+    }
+
+}
+
+// ==================================================
+// TODO: Carlos V. Bortolotti
+// Verificar se dois objetos colidem
+// ==================================================
+bool check_collision_object(box *b1, box *b2) {
+
+    float p_b1_x = (b1->x-b1->w/2.);
+    float p_b1_w = (b1->x+b1->w/2.);
+    float p_b1_y = (b1->y-b1->h/2.);
+    float p_b1_h = (b1->y+b1->h/2.);    
+
+    float p_b2_x = (b2->x-b2->w/2.);
+    float p_b2_w = (b2->x+b2->w/2.);
+    float p_b2_y = (b2->y-b2->h/2.);
+    float p_b2_h = (b2->y+b2->h/2.);    
+
+    bool r =
+           (p_b1_w >= p_b2_x && 
+            p_b1_x <= p_b2_w && 
+            p_b1_h >= p_b2_y &&
+            p_b1_y <= p_b2_h);
+
+
+    printf("p_b1_x: %f, ", p_b1_x);
+    printf("p_b1_w: %f, ", p_b1_w);
+    printf("p_b1_y: %f, ", p_b1_y);
+    printf("p_b1_h: %f\n", p_b1_h);
+
+    printf("p_b2_x: %f,", p_b2_x);
+    printf("p_b2_w: %f,", p_b2_w);
+    printf("p_b2_y: %f,", p_b2_y);
+    printf("p_b2_h: %f\n", p_b2_h);
+
+    return r;            
+}
+
+// ==================================================
+// TODO: Carlos V. Bortolotti
+// Verificar se o objeto colide com a marcação
+// ==================================================
+void check_collision(line_mark *marks, int lines_marks, image im, detection *dets, int num, float thresh, char **names, int classes)
+{
+    int i,j,l;
+    int lines;
+
+    lines = lines_marks;
+
+    for(i = 0; i < num; ++i){
+        
+        int class = -1;
+        
+        for(j = 0; j < classes; ++j){
+            if (dets[i].prob[j] > thresh){
+                if (class < 0) {
+                    class = j;
+                }
+            }
+        }
+        
+        if(class >= 0) {
+
+            box b = dets[i].bbox;
+
+            // float object_left  = (b.x-b.w/2.)*im.w;
+            // float object_right = (b.x+b.w/2.)*im.w;
+            // float object_top   = (b.y-b.h/2.)*im.h;
+            // float object_bottom   = (b.y+b.h/2.)*im.h;
+
+            // printf("Encontrou: %s", names[class]);
+            // printf(",left: %f", object_left);
+            // printf(",right: %f", object_right);
+            // printf(",top: %f", object_top);
+            // printf(",bottom: %f\n", object_bottom);
+
+            float b_x = b.x * im.w;
+            float b_y = b.y * im.h;
+            float b_h = b.h * im.h;
+            float b_w = b.w * im.w;
+            float tolerance = 0.75;
+
+            //printf("Encontrou: %s", names[class]);
+            //printf(",x: %f", b_x);
+            //printf(",y: %f\n", b_y);
+            // printf(",h: %f", b_h);
+            // printf(",w: %f\n", b_w);
+
+
+            // Verificar se o objeto colide com alguma das linhas de marcação
+            for (l = 0; l < lines; ++l) {
+                
+                line_mark *line = (marks + l);
+
+                //printf("Checando: %s", line->title);
+                //printf(",x: %f", line->x);
+                //printf(",y: %f\n", line->y);
+
+                // int line_left  = (line->x-line->w/2.);
+                // int line_right = (line->x+line->w/2.);
+                // int line_top   = (line->y-line->h/2.);
+                // int line_bottom   = (line->y+line->h/2.);
+
+                bool is_vertical = (line->vertical == 1);
+                bool is_cross;
+
+                float centro_x = b_x; // + (b_w / 2);
+                float centro_y = b_y; // + (b_h / 2);
+
+                // draw_box_width(im, centro_x, centro_y, centro_x, centro_y, 1, 0.0, 0.0, 0.0);
+                // draw_box_width(im, line->x, line->y, line->x, line->y, 1, 0.0, 0.0, 0.0);
+
+                if (is_vertical) {
+                    //float line_size = (line->y + line->h) / 2;
+                    float line_size = line->h / 2;
+                    float object_tolerance = (b_w * tolerance)/2;
+                    is_cross = (((centro_x >= (line->x - object_tolerance)) && (centro_x <= (line->x + object_tolerance))) && (centro_y >= (line->y - line_size) && centro_y <= (line->y + line_size)));
+                    // draw_box_width(im, line->x, (line->y - line_size), line->x, (line->y - line_size), 1, 0.0, 0.0, 0.0);
+                    // draw_box_width(im, line->x, (line->y + line_size), line->x, (line->y + line_size), 1, 0.0, 0.0, 0.0);
+                }
+                else {
+                    //float line_size = (line->x + line->w) / 2;
+                    float line_size = line->w / 2;
+                    float object_tolerance = (b_h * tolerance)/2;
+                    is_cross = (((centro_y >= (line->y - object_tolerance)) && (centro_y <= (line->y + object_tolerance))) && (centro_x >= (line->x - line_size) && centro_x <= (line->x + line_size)));
+                    // draw_box_width(im, (line->x - line_size), line->y, (line->x - line_size), line->y, 1, 0.0, 0.0, 0.0);
+                    // draw_box_width(im, (line->x + line_size), line->y, (line->x + line_size), line->y, 1, 0.0, 0.0, 0.0);
+                }
+
+                box lc = line->last_cross;
+                box new_cross = {0};
+                new_cross.x = centro_x;
+                new_cross.y = centro_y;
+                new_cross.w = b_w;
+                new_cross.h = b_h;
+
+                if (is_cross) {
+                    printf("Colidiu : %s\n", line->title);
+
+                    //if (lc != NULL) {
+                    printf("Antigo (x,y) : %f,%f\n", lc.x, lc.y);
+                    printf("Novo (x,y) : %f,%f\n", centro_x, centro_y);
+                    
+                    if (!check_collision_object(&lc, &new_cross)) {
+                        line->class_counter[class] += 1;
+                    } 
+                    // else {
+
+                    //     if (line->direction < 0) {
+
+                    //         if ((is_vertical && lc.x < new_cross.x) ||
+                    //             (!is_vertical && lc.y < new_cross.y)) {
+                    //             line->class_counter[class] += 1;
+                    //         }
+
+                    //     } else if (line->direction > 0) {
+
+                    //         if ((is_vertical && lc.x > new_cross.x) ||
+                    //             (!is_vertical && lc.y > new_cross.y)) {
+                    //             line->class_counter[class] += 1;
+                    //         }
+
+                    //     }
+
+
+                    // }
+                        
+                    //} else {
+                        //line->class_counter[class] += 1;
+                    //}
+
+                    line->last_cross = new_cross;
+                    //line.last_cross = &new_cross;
+
+                } 
+                else {
+
+                    if (check_collision_object(&lc, &new_cross)) {
+                        line->last_cross = new_cross;
+                    }
+
+                }
+
+            }
+
+            //printf("...\n");
+
+        }
+
+    }
+
+    // *************************************************
+    // Gerar um arquivo contendo os dados da detecção
+    // *************************************************
+
+    char vbuff[1024];
+    snprintf(vbuff, 1024, "%s/detected_results.txt", "data");
+    FILE *fp = fopen(vbuff, "w");
+
+    fprintf(fp, "Marcações %i\n", lines);
+
+    for (l = 0; l < lines; ++l) {
+        line_mark line = marks[l];
+        fprintf(fp, "Local '%s'\n", line.title);
+        for(j = 0; j < classes; ++j){
+            fprintf(fp, "Classe '%s'", names[j]);
+            fprintf(fp, ", Passou: %i\n", line.class_counter[j]);
+        }
+    }
+
+    fclose(fp);
+
+    // *************************************************
+
+}
+
 void draw_detections(image im, detection *dets, int num, float thresh, char **names, image **alphabet, int classes)
 {
     int i,j;
@@ -569,6 +836,27 @@ void show_image_cv(image p, const char *name, IplImage *disp)
         cvReleaseImage(&buffer);
     }
     cvShowImage(buff, disp);
+    // DANIEL JOAO PICCOLI - INICIO
+    {
+		CvSize size;
+		{
+			size.width = disp->width, size.height = disp->height;
+		}
+ 		static CvVideoWriter* output_video = NULL;    // cv::VideoWriter output_video;
+		if (output_video == NULL)
+		{
+			printf("\n SRC output_video = %p \n", output_video);
+			const char* output_name = "test_dnn_out.avi";
+			//output_video = cvCreateVideoWriter(output_name, CV_FOURCC('H', '2', '6', '4'), 25, size, 1);
+			output_video = cvCreateVideoWriter(output_name, CV_FOURCC('D', 'I', 'V', 'X'), 25, size, 1);
+			//output_video = cvCreateVideoWriter(output_name, CV_FOURCC('M', 'J', 'P', 'G'), 25, size, 1);
+			printf("\n cvCreateVideoWriter, DST output_video = %p  \n", output_video);
+		}
+ 		cvWriteFrame(output_video, disp);
+		printf("\n cvWriteFrame \n");
+	}
+
+// DANIEL JOAO PICCOLI - FIM
 }
 #endif
 

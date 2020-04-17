@@ -587,6 +587,15 @@ typedef struct{
     float left, right, top, bottom;
 } box_label;
 
+// TODO: Carlos V. Bortolotti
+typedef struct {
+    float x, y, w, h;
+    int vertical;
+    char *title;
+    int *class_counter;
+    box last_cross;
+    int direction;
+} line_mark;
 
 network *load_network(char *cfg, char *weights, int clear);
 load_args get_base_args(network *net);
@@ -736,6 +745,11 @@ float box_iou(box a, box b);
 data load_all_cifar10();
 box_label *read_boxes(char *filename, int *n);
 box float_to_box(float *f, int stride);
+
+ // TODO: Carlos V Bortolotti
+void draw_marks(image im, line_mark *boxes, int lines_marks, int classes, image **alphabet); // TODO: Carlos V Bortolotti
+void check_collision(line_mark *marks, int lines_marks,image im, detection *dets, int num, float thresh, char **names, int classes); // TODO: Carlos V Bortolotti 
+
 void draw_detections(image im, detection *dets, int num, float thresh, char **names, image **alphabet, int classes);
 
 matrix network_predict_data(network *net, data test);

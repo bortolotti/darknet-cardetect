@@ -36,6 +36,10 @@ static int demo_done = 0;
 static int demo_total = 0;
 double demo_time;
 
+// TODO: Carlos V Bortolotti
+static line_mark *demo_line_marks;
+static int demo_lines;
+
 detection *get_network_boxes(network *net, int w, int h, float thresh, float hier, int *map, int relative, int *num);
 
 int size_network(network *net)
@@ -101,7 +105,6 @@ void *detect_in_thread(void *ptr)
     int nboxes = 0;
     dets = avg_predictions(net, &nboxes);
 
-
     /*
        int i,j;
        box zero = {0};
@@ -130,7 +133,15 @@ void *detect_in_thread(void *ptr)
     printf("\nFPS:%.1f\n",fps);
     printf("Objects:\n\n");
     image display = buff[(buff_index+2) % 3];
+
+    draw_marks(display, demo_line_marks, demo_lines, demo_classes, demo_alphabet);
+
     draw_detections(display, dets, nboxes, demo_thresh, demo_names, demo_alphabet, demo_classes);
+
+    // TODO: Carlos V. Bortolotti
+    // Verificar a colisão dos objetos e gerar arquivo com o resultado.
+    check_collision(demo_line_marks, demo_lines, display, dets, nboxes, demo_thresh, demo_names, demo_classes);
+
     free_detections(dets, nboxes);
 
     demo_index = (demo_index + 1)%demo_frame;
@@ -245,6 +256,171 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
         }
     }
 
+    // TODO: Carlos V Bortolotti
+    // Criar linhas de marcação
+    line_mark boxes[13];
+
+    line_mark marquesSaidaCima = {0};
+    marquesSaidaCima.x = 300;
+    marquesSaidaCima.y = 90;
+    marquesSaidaCima.w = 20;
+    marquesSaidaCima.h = 1;
+    marquesSaidaCima.vertical = 0;
+    marquesSaidaCima.title = "marquesSaidaCima";
+    marquesSaidaCima.class_counter = calloc(demo_classes, sizeof(int));
+    marquesSaidaCima.direction = 1;
+    //marquesSaidaCima.last_cross = {0};
+    boxes[0] = marquesSaidaCima;
+
+    line_mark marquesSaidaCima2 = {0};
+    marquesSaidaCima2.x = 320;
+    marquesSaidaCima2.y = 90;
+    marquesSaidaCima2.w = 20;
+    marquesSaidaCima2.h = 1;
+    marquesSaidaCima2.vertical = 0;
+    marquesSaidaCima2.title = "marquesSaidaCima2";
+    marquesSaidaCima2.class_counter = calloc(demo_classes, sizeof(int));
+    marquesSaidaCima2.direction = 1;
+    //marquesSaidaCima.last_cross = {0};
+    boxes[10] = marquesSaidaCima2;
+
+    line_mark marquesEntradaCima = {0};
+    marquesEntradaCima.x = 344;
+    marquesEntradaCima.y = 90;
+    marquesEntradaCima.w = 28;
+    marquesEntradaCima.h = 1;
+    marquesEntradaCima.vertical = 0;
+    marquesEntradaCima.title = "marquesEntradaCima";
+    marquesEntradaCima.class_counter = calloc(demo_classes, sizeof(int));
+    marquesEntradaCima.direction = -1;
+    //marquesEntradaCima.last_cross = {0};
+    boxes[1] = marquesEntradaCima;
+
+    line_mark marquesSaidaBaixo = {0};
+    marquesSaidaBaixo.x = 308;
+    marquesSaidaBaixo.y = 322;
+    marquesSaidaBaixo.w = 25;
+    marquesSaidaBaixo.h = 1;
+    marquesSaidaBaixo.vertical = 0;    
+    marquesSaidaBaixo.title = "marquesSaidaBaixo";
+    marquesSaidaBaixo.class_counter = calloc(demo_classes, sizeof(int));
+    marquesSaidaBaixo.direction = -1;
+    //marquesSaidaBaixo.last_cross = {0};
+    boxes[2] = marquesSaidaBaixo;
+
+    line_mark marquesSaidaBaixo2 = {0};
+    marquesSaidaBaixo2.x = 334;
+    marquesSaidaBaixo2.y = 322;
+    marquesSaidaBaixo2.w = 25;
+    marquesSaidaBaixo2.h = 1;
+    marquesSaidaBaixo2.vertical = 0;    
+    marquesSaidaBaixo2.title = "marquesSaidaBaixo2";
+    marquesSaidaBaixo2.class_counter = calloc(demo_classes, sizeof(int));
+    marquesSaidaBaixo2.direction = -1;
+    //marquesSaidaBaixo.last_cross = {0};
+    boxes[11] = marquesSaidaBaixo2;
+
+    line_mark marquesEntradaBaixo = {0};
+    marquesEntradaBaixo.x = 278;
+    marquesEntradaBaixo.y = 322;
+    marquesEntradaBaixo.w = 36;
+    marquesEntradaBaixo.h = 1;
+    marquesEntradaBaixo.vertical = 0;
+    marquesEntradaBaixo.title = "marquesEntradaBaixo";
+    marquesEntradaBaixo.class_counter = calloc(demo_classes, sizeof(int));
+    marquesEntradaBaixo.direction = 1;
+    //marquesEntradaBaixo.last_cross = {0};
+    boxes[3] = marquesEntradaBaixo;
+
+    line_mark marquesSaidaBaixoLateral = {0};
+    marquesSaidaBaixoLateral.x = 398;
+    marquesSaidaBaixoLateral.y = 305;
+    marquesSaidaBaixoLateral.w = 45;
+    marquesSaidaBaixoLateral.h = 1;
+    marquesSaidaBaixoLateral.vertical = 0;
+    marquesSaidaBaixoLateral.title = "marquesSaidaBaixoLateral";
+    marquesSaidaBaixoLateral.class_counter = calloc(demo_classes, sizeof(int));
+    marquesSaidaBaixoLateral.direction = -1;
+    //marquesSaidaBaixoLateral.last_cross = {0};
+    boxes[4] = marquesSaidaBaixoLateral;
+
+    line_mark ottoSaidaEsquerda = {0};
+    ottoSaidaEsquerda.x = 170;
+    ottoSaidaEsquerda.y = 213;
+    ottoSaidaEsquerda.w = 1;
+    ottoSaidaEsquerda.h = 26;
+    ottoSaidaEsquerda.vertical = 1;
+    ottoSaidaEsquerda.title = "ottoSaidaEsquerda";
+    ottoSaidaEsquerda.class_counter = calloc(demo_classes, sizeof(int));
+    ottoSaidaEsquerda.direction = 1;
+    //ottoSaidaEsquerda.last_cross = {0};
+    boxes[5] = ottoSaidaEsquerda;
+
+    line_mark ottoSaidaEsquerda2 = {0};
+    ottoSaidaEsquerda2.x = 170;
+    ottoSaidaEsquerda2.y = 240;
+    ottoSaidaEsquerda2.w = 1;
+    ottoSaidaEsquerda2.h = 26;
+    ottoSaidaEsquerda2.vertical = 1;
+    ottoSaidaEsquerda2.title = "ottoSaidaEsquerda2";
+    ottoSaidaEsquerda2.class_counter = calloc(demo_classes, sizeof(int));
+    ottoSaidaEsquerda2.direction = 1;
+    //ottoSaidaEsquerda.last_cross = {0};
+    boxes[6] = ottoSaidaEsquerda2;
+
+    line_mark ottoSaidaDireita = {0};
+    ottoSaidaDireita.x = 460;
+    ottoSaidaDireita.y = 181;
+    ottoSaidaDireita.w = 1;
+    ottoSaidaDireita.h = 22;
+    ottoSaidaDireita.vertical = 1;
+    ottoSaidaDireita.title = "ottoSaidaDireita";
+    ottoSaidaDireita.class_counter = calloc(demo_classes, sizeof(int));
+    ottoSaidaDireita.direction = -1;
+    //ottoSaidaDireita.last_cross = {0};
+    boxes[7] = ottoSaidaDireita;
+
+    line_mark ottoSaidaDireita2 = {0};
+    ottoSaidaDireita2.x = 460;
+    ottoSaidaDireita2.y = 203;
+    ottoSaidaDireita2.w = 1;
+    ottoSaidaDireita2.h = 22;
+    ottoSaidaDireita2.vertical = 1;
+    ottoSaidaDireita2.title = "ottoSaidaDireita2";
+    ottoSaidaDireita2.class_counter = calloc(demo_classes, sizeof(int));
+    ottoSaidaDireita2.direction = -1;
+    //ottoSaidaDireita.last_cross = {0};
+    boxes[12] = ottoSaidaDireita2;
+
+    line_mark ottoEntradaEsquerda = {0};
+    ottoEntradaEsquerda.x = 170;
+    ottoEntradaEsquerda.y = 185;
+    ottoEntradaEsquerda.w = 1;
+    ottoEntradaEsquerda.h = 30;
+    ottoEntradaEsquerda.vertical = 1;
+    ottoEntradaEsquerda.title = "ottoEntradaEsquerda";
+    ottoEntradaEsquerda.class_counter = calloc(demo_classes, sizeof(int));
+    ottoEntradaEsquerda.direction = -1;
+    //ottoEntradaEsquerda.last_cross = {0};
+    boxes[8] = ottoEntradaEsquerda;
+
+    line_mark ottoEntradaDireita = {0};
+    ottoEntradaDireita.x = 415;
+    ottoEntradaDireita.y = 226;
+    ottoEntradaDireita.w = 1;
+    ottoEntradaDireita.h = 32;
+    ottoEntradaDireita.vertical = 1;
+    ottoEntradaDireita.title = "ottoEntradaDireita";
+    ottoEntradaDireita.class_counter = calloc(demo_classes, sizeof(int));
+    ottoEntradaDireita.direction = 1;
+    //ottoEntradaDireita.last_cross = {0};
+    boxes[9] = ottoEntradaDireita;
+
+    demo_line_marks = boxes;
+
+    int num_line_marks = sizeof(boxes)/sizeof(boxes[0]);
+    demo_lines = num_line_marks;
+
     demo_time = what_time_is_it_now();
 
     while(!demo_done){
@@ -264,6 +440,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
         pthread_join(detect_thread, 0);
         ++count;
     }
+
 }
 
 /*
